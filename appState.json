@@ -1,0 +1,196 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "e9da9d07-b839-4ea1-92a5-4735ab341c7d": {
+        "id": "e9da9d07-b839-4ea1-92a5-4735ab341c7d",
+        "parent": null,
+        "name": "koi",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "b5c5748e-59ee-4f4a-8740-8909dcf6417e",
+          "5744223e-5586-4808-9e6a-9509b19c864a"
+        ],
+        "isRemovable": false,
+        "filePath": "koi"
+      },
+      "b5c5748e-59ee-4f4a-8740-8909dcf6417e": {
+        "id": "b5c5748e-59ee-4f4a-8740-8909dcf6417e",
+        "parent": "e9da9d07-b839-4ea1-92a5-4735ab341c7d",
+        "name": "lambda.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "koi/lambda.js",
+        "code": "let SL_REDIS = require('slappforge-sdk-redis');\nlet clusterManager = require('./ClusterManager');\nconst redis = new SL_REDIS.Redis(clusterManager);\n\nexports.handler = function (event, context, callback) {\n    // You must always quit the redis client after it's used\n    redis.strlen({\n        clusterIdentifier: 'clster',\n        params: ['1']\n    }, function (error, response, redisClient) {\n        if (error) {\n            callback(error);\n        } else {\n            //redisClient.quit();\n        }\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": [
+          {
+            "resourceName": "apigusEast1sachithraAPInamehiruidneeany",
+            "config": {}
+          }
+        ]
+      },
+      "5744223e-5586-4808-9e6a-9509b19c864a": {
+        "id": "5744223e-5586-4808-9e6a-9509b19c864a",
+        "parent": "e9da9d07-b839-4ea1-92a5-4735ab341c7d",
+        "name": "ClusterManager.js",
+        "type": "JS_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "koi/ClusterManager.js",
+        "code": "module.exports = function() {\n    this.clusters = [];\n\n    this.clusters[\"clster\"] = {\n        host: process.env.EndPoint_redisClster,\n        port: 6379,\n        clusterModeEnabled: true\n    };\n};"
+      }
+    },
+    "rootNode": "e9da9d07-b839-4ea1-92a5-4735ab341c7d",
+    "openFiles": [
+      "b5c5748e-59ee-4f4a-8740-8909dcf6417e"
+    ],
+    "currentFileId": "b5c5748e-59ee-4f4a-8740-8909dcf6417e",
+    "resources": {
+      "apigusEast1sachithraAPInamehiruidneeany": {
+        "name": "apigusEast1sachithraAPInamehiruidneeany",
+        "type": "API_GATEWAY",
+        "config": {
+          "selectedRegion": "us-east-1",
+          "apiMode": 1,
+          "apiName": "sachithraAPIname",
+          "apiId": "052p9kjn18",
+          "endpointType": "REGIONAL",
+          "rootResourceId": "zrjp6rdv3b",
+          "existingResources": {
+            "/hiruidnee": "mdiuqa",
+            "/": "zrjp6rdv3b"
+          },
+          "resourceMode": 1,
+          "resourcePath": "/hiruidnee",
+          "resourceName": "hiruidnee",
+          "resourceId": "mdiuqa",
+          "restMethod": "ANY",
+          "proxyIntegration": false,
+          "enableCORS": false,
+          "stageMode": 1,
+          "stageName": "Test",
+          "stageDeploymentId": "07giuk",
+          "mode": 1
+        }
+      },
+      "redis-clster": {
+        "name": "redis-clster",
+        "type": "Redis",
+        "config": {
+          "clusterConfig": {
+            "engineType": "redis",
+            "clusterSpec": {
+              "instanceFamily": "t2",
+              "nodeTypeClass": "cache.t2.micro",
+              "engineVersion": "5.0.4",
+              "clusterModeEnabled": true,
+              "autoFailoverEnabled": true,
+              "numOfShards": 3,
+              "numOfReplicas": 2
+            },
+            "clusterSetting": {
+              "clusterName": "clster",
+              "clusterDescription": "resr",
+              "port": 6379
+            },
+            "vpcSpec": {
+              "vpcType": "NEW",
+              "existingVPC": {
+                "vpcID": "",
+                "subNetID": "",
+                "securityGroupID": ""
+              },
+              "newVPC": {
+                "vpcName": "vpc",
+                "vpcIPv4CIDR": "10.0.0.0/16",
+                "subnetName": "tese",
+                "subnetIPv4CIDR": "10.0.0.0/20"
+              }
+            },
+            "host": "",
+            "doesExist": false,
+            "alreadyDeployed": false,
+            "redisClient": "",
+            "external": false
+          },
+          "clusterResources": [],
+          "editMode": false,
+          "enableInject": true,
+          "isGlobalEditMode": false,
+          "isClusterSelectionValid": true,
+          "isNewFromGlobal": false,
+          "mode": 0,
+          "operation": {
+            "str": "REDIS_STRLEN",
+            "operation": "strlen",
+            "displayName": "STRLEN",
+            "type": {
+              "str": "REDIS_STRINGS",
+              "type": "strings",
+              "displayName": "STRINGS"
+            }
+          },
+          "params": [],
+          "projectRegion": "us-east-1",
+          "reusableMode": false,
+          "showOperations": true,
+          "validator": {
+            "validatableFields": {},
+            "validity": true
+          }
+        }
+      }
+    },
+    "customTemplate": {
+      "dialect": null,
+      "definitions": null
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {
+        "slappforge-sdk-redis": {
+          "name": "slappforge-sdk-redis",
+          "language": "javascript",
+          "version": "0.0.3",
+          "dev": false,
+          "notRemovable": false
+        }
+      }
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "koi",
+    "projectDescription": "",
+    "projectVersion": "1.0.0",
+    "projectRegion": "us-east-1",
+    "platform": "AWS",
+    "platformRegions": {},
+    "lastSave": 1571821354761
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "koi",
+      "url": "https://github.com/Indunil1992/koi"
+    }
+  }
+}
